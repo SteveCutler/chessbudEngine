@@ -14,7 +14,7 @@ app.post('/evaluate', (req, res) => {
   }
 
   // Spawn Stockfish process
-  const stockfish = spawn('stockfish');
+  const stockfish = spawn('/usr/local/bin/stockfish');  // Update the path
   let stockfishOutput = '';
 
   // Event handler for Stockfish output
