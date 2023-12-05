@@ -14,7 +14,7 @@ app.post('/evaluate', (req, res) => {
   }
 
   // Run Stockfish command to evaluate the position and get the best move
-  exec(`/opt/homebrew/bin/stockfish position fen ${fen} go depth 15`, (error, stdout) => {
+  exec(`stockfish position fen ${fen} go depth 15`, (error, stdout) => {
     console.log('Stockfish Output:', stdout); // Add this line for logging
   
     if (error) {
