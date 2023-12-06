@@ -15,7 +15,7 @@ app.post('/evaluate', (req, res) => {
   }
 
   // Spawn Stockfish process
-  const stockfish = spawn('stockfish');  // Use the command without specifying the path
+  const stockfish = spawn('/usr/local/bin/stockfish');  // Use the command without specifying the path
   let stockfishOutput = '';
 
   // Event handler for Stockfish output
