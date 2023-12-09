@@ -6,16 +6,13 @@ echo "making bin..."
 
 # Install Stockfish
 echo "Downloading Stockfish..."
-wget https://stockfishchess.org/files/stockfish-linux.zip -O stockfish-linux.zip
+wget https://github.com/official-stockfish/Stockfish/releases/download/sf_16/stockfish-ubuntu-x86-64-avx2.tar
 
 echo "Unzipping Stockfish..."
-unzip -q stockfish-linux.zip
-
-echo "Setting execute permissions for Stockfish..."
-chmod +x stockfish
+tar -xvf stockfish-ubuntu-x86-64-avx2.tar
 
 # Move the Stockfish executable to the /app/bin directory
-mv stockfish* /app/bin/
+mv stockfish-ubuntu-x86-64-avx2 /app/bin/stockfish
 
 # Display the new path to Stockfish
 echo "Stockfish installed in: app/bin/stockfish"
