@@ -12,7 +12,7 @@ echo "Unzipping Stockfish..."
 tar -xvf stockfish-ubuntu-x86-64-avx2.tar
 
 # Move the Stockfish executable to the /app/bin directory
-mv stockfish-ubuntu-x86-64-avx2 /app/bin/stockfish
+mv stockfish/stockfish-ubuntu-x86-64-avx2 /app/bin/stockfish
 
 # Display the new path to Stockfish
 echo "Stockfish installed in: app/bin/stockfish"
