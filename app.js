@@ -15,7 +15,8 @@ app.post('/evaluate', (req, res) => {
   }
 
   // Spawn Stockfish process
-  const stockfish = spawn('/usr/local/bin/stockfish');  // Use the command without specifying the path
+  const stockfish = spawn('/app/bin/stockfish');
+  // Use the command without specifying the path
   let stockfishOutput = '';
 
   // Event handler for Stockfish output
@@ -24,22 +25,29 @@ app.post('/evaluate', (req, res) => {
 
     // Check if Stockfish has finished analyzing
     if (stockfishOutput.includes('bestmove')) {
-      const lines = stockfishOutput.split('\n');
-      const bestMoveLine = lines.find((line) => line.includes('bestmove'));
-
-      let evaluation = null;
-
-      // Extract evaluation information from the entire output
-      const evalMatch = stockfishOutput.match(/score (cp|mate) (-?\d+) /);
-      if (evalMatch) {
-        const [, scoreType, scoreValue] = evalMatch;
-        const adjustedValue = (fen.includes('w') ? 1 : -1) * parseInt(scoreValue);
-        const value = (scoreType === 'mate') ? `#${adjustedValue}` : adjustedValue;
-        evaluation = {
-          type: scoreType,
-          value: parseInt(value),
-        };
-      }
+        const lines = stockfishOutput.split('\n');
+        const bestMoveLine = lines.find((line) => line.includes('bestmove'));
+      
+        let evaluation = null;
+      
+        // Extract evaluation information from the entire output
+        const evalMatch = stockfishOutput.match(/score (cp|mate) (-?\d+) /);
+        if (evalMatch) {
+          const [, scoreType, scoreValue] = evalMatch;
+          const adjustedValue = (fen.includes('w') ? 1 : -1) * parseInt(scoreValue);
+          const value = (scoreType === 'mate') ? `#${adjustedValue}` : adjustedValue;
+          evaluation = {
+            type: scoreType,
+            value: parseInt(value),
+          };
+      
+          // Check for forced mate
+          if (scoreType === 'mate' && Math.abs(parseInt(scoreValue)) > 1000) {
+            // Handle forced mate scenario separately
+            evaluation.value = `#${parseInt(scoreValue)}`;
+            // Optionally, you can set a flag or take specific actions for mate scenarios
+          }
+        }
 
       if (bestMoveLine && evaluation !== null) {
         const matchBestMove = bestMoveLine.match(/^bestmove (\w+)/);
@@ -78,7 +86,8 @@ app.post('/evaluate', (req, res) => {
   // Send the UCI commands for analysis
   stockfish.stdin.write('uci\n');
   stockfish.stdin.write('isready\n');
-  stockfish.stdin.write(`position fen ${fen}\ngo movetime 1000\n`);
+  stockfish.stdin.write(`position fen ${fen}\ngo depth 20 movetime 5000\n`);
+
 });
 
 // Handle requests to the root URL
@@ -87,6 +96,8 @@ app.get('/', (req, res) => {
 });
 
 // Start the server
-app.listen(port, '0.0.0.0', () => {
-  console.log(`Server is running on http://localhost:${port}`);
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+    console.log(`Server is running on http://0.0.0.0:${PORT}`);
 });
