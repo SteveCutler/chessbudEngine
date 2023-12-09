@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Create a directory to store Stockfish in /app
-mkdir -p /bin
+mkdir -p app/bin
 
 # Install Stockfish
 echo "Downloading Stockfish..."
@@ -14,10 +14,10 @@ echo "Setting execute permissions for Stockfish..."
 chmod +x stockfish
 
 # Move the Stockfish executable to the /app/bin directory
-mv stockfish /bin/
+mv stockfish app/bin/
 
 # Display the new path to Stockfish
-echo "Stockfish installed in: /app/bin/stockfish"
+echo "Stockfish installed in: app/bin/stockfish"
 
 # Confirm Stockfish version
 echo "Stockfish version:"
