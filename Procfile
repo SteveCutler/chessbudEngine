@@ -1,1 +1,1 @@
-web: bash setup.sh && npm start
+web: bash /app/bin/setup.sh && npm start
