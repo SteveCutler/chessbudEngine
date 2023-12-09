@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Create a directory to store Stockfish in /app
-mkdir -p app/bin
+mkdir -p /app/bin
 echo "making bin..."
 
 # Install Stockfish
